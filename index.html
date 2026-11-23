@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Limpando a Praia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: jovem, educativo e otimista — um trabalho de faculdade com cara de campanha ambiental.
+   IDEA: um cartaz de praia — mar azul profundo em cima, faixa de areia embaixo, onda separando as seções.
+   PICTURE: cena em SVG da praia com sol, ondas, lixeira e os três resíduos (garrafa PET, tampinha, latinha) na areia.
+   COLOUR and TYPE: azul oceano dominante, areia de apoio, coral como destaque; Baloo 2 nos títulos, Nunito no texto.
+   LAYOUT: bandas cheias alternando mar e areia, divisórias em forma de onda, conteúdo até 1180px. */
+:root{color-scheme:light dark;
+--sea:light-dark(#0b3a8c,#0a2a63);--sea2:light-dark(#1559c9,#1a4ea8);--sand:light-dark(#f6ead0,#1c1a16);--sand2:light-dark(#ecd9b0,#2a261f);
+--ink:light-dark(#1b1b1b,#f3efe6);--muted:light-dark(#5a5346,#bfb7a6);--coral:#ff6b4a;--card:light-dark(#fffaf0,#24211b);--line:light-dark(#e0cfa8,#3a342a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--sand);color:var(--ink);font:16.5px/1.6 Nunito,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Baloo 2",system-ui,sans-serif;line-height:1.05;text-wrap:balance;margin:0}
+h2{font-size:clamp(32px,4.4vw,48px);margin-bottom:14px}
+h3{font-size:22px}
+p{margin:0 0 12px;max-width:68ch}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto}
+.band{padding:clamp(40px,6vw,88px) max(5vw,18px)}
+.sea{background:var(--sea);color:#fff}
+.sea p{color:#dfe8ff}
+.lead{font-size:18px;color:var(--muted)}
+.sea .lead{color:#cfdcff}
+nav{position:sticky;top:0;z-index:5;background:var(--sea);color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
+nav .wrap{display:flex;align-items:center;gap:18px;padding:10px max(5vw,18px);flex-wrap:wrap}
+nav b{font-family:"Baloo 2";font-size:22px;margin-right:auto}
+nav b span{color:var(--coral)}
+.links{display:flex;gap:4px;overflow-x:auto}
+.links a{flex:none;text-decoration:none;padding:10px 12px;border-radius:10px;font-weight:700;font-size:15px}
+.links a:hover,.links a:focus-visible{background:rgba(255,255,255,.14);outline:none}
+.hero{background:linear-gradient(180deg,#7cc3ff 0%,#bfe3ff 55%,var(--sand) 55%);padding:0}
+:root[data-theme=dark] .hero{background:linear-gradient(180deg,#0d1f45 0%,#1f3d78 55%,var(--sand) 55%)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .hero{background:linear-gradient(180deg,#0d1f45 0%,#1f3d78 55%,var(--sand) 55%)}}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:center;padding:clamp(28px,5vw,64px) max(5vw,18px)}
+.hero h1{font-size:clamp(46px,7vw,84px);color:#0b2a66}
+:root[data-theme=dark] .hero h1{color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .hero h1{color:#fff}}
+.hero .copy{background:var(--card);border-radius:22px;padding:26px;box-shadow:0 18px 40px rgba(11,58,140,.18)}
+.hero .copy p{color:var(--muted)}
+.tag{display:inline-block;background:var(--coral);color:#fff;font-weight:700;font-size:14px;padding:5px 12px;border-radius:999px;margin-bottom:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border-radius:12px;font-weight:800;text-decoration:none;background:var(--coral);color:#fff;border:0;font-size:16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.sea .btn.ghost{color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.4)}
+.btn:focus-visible{outline:3px solid #ffd166;outline-offset:2px}
+.scene{width:100%;height:auto;display:block;filter:drop-shadow(0 12px 24px rgba(0,0,0,.15))}
+.wave{display:block;width:100%;height:46px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+.steps{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px;position:relative}
+.steps li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;align-items:start;background:rgba(255,255,255,.07);border-radius:18px;padding:18px}
+.steps .n{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--sea);font:800 26px "Baloo 2"}
+.steps li:nth-child(3) .n,.steps li:nth-child(4) .n{background:var(--coral);color:#fff}
+.steps p{margin:6px 0 0}
+.note{font-size:14px;color:#cfdcff;margin-top:18px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:26px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.card svg{width:64px;height:64px;display:block;margin-bottom:10px}
+.card .fact{display:block;font:800 30px "Baloo 2";color:var(--coral);margin:8px 0 2px}
+.card ul{padding-left:18px;margin:8px 0 0}
+.card li{margin-bottom:4px}
+.small{font-size:14px;color:var(--muted)}
+.ba{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:704/404;background:#222;user-select:none;touch-action:pan-y}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba .top{clip-path:inset(0 calc(100% - var(--x,50%)) 0 0)}
+.ba .bar{position:absolute;top:0;bottom:0;left:var(--x,50%);width:3px;background:#fff;transform:translateX(-50%)}
+.ba .bar::after{content:"";position:absolute;top:50%;left:50%;width:40px;height:40px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.ba .lbl{position:absolute;bottom:12px;padding:4px 12px;border-radius:999px;font-weight:800;font-size:14px;background:rgba(0,0,0,.6);color:#fff}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.ba input:focus-visible+.bar{background:#ffd166}
+.vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:22px}
+.vids button{all:unset;cursor:pointer;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:9/16;background:#000;display:block}
+.vids button:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.vids img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.vids button:hover img{transform:scale(1.04)}
+.vids span{position:absolute;left:8px;bottom:8px;right:8px;background:rgba(0,0,0,.62);color:#fff;font-size:13px;font-weight:700;padding:4px 8px;border-radius:8px}
+.vids i{position:absolute;top:50%;left:50%;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.9);transform:translate(-50%,-50%)}
+.vids i::after{content:"";position:absolute;left:18px;top:13px;border-left:16px solid var(--sea);border-top:10px solid transparent;border-bottom:10px solid transparent}
+dialog{border:0;padding:0;background:transparent;max-width:min(92vw,420px)}
+dialog::backdrop{background:rgba(5,15,40,.85)}
+dialog video{width:100%;max-height:82vh;border-radius:16px;display:block;background:#000}
+dialog .close{position:absolute;top:-52px;right:0}
+.game{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:center}
+.screen{background:#0a1f4a;border-radius:24px;padding:16px;box-shadow:inset 0 0 0 6px #163a85,0 20px 40px rgba(0,0,0,.25)}
+.screen svg{width:100%;height:auto;display:block;border-radius:12px;image-rendering:pixelated}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.chips span{background:rgba(255,255,255,.12);padding:6px 12px;border-radius:999px;font-weight:700;font-size:14px}
+.eval{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+.eval .card h3{margin-bottom:6px}
+.team{list-style:none;padding:0;margin:24px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.team li{background:rgba(255,255,255,.1);border-radius:14px;padding:14px 18px;font-weight:700;font-size:17px}
+footer{background:#071f4d;color:#cfdcff;padding:28px max(5vw,18px);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:860px){.hero .wrap,.grid2,.game{grid-template-columns:minmax(0,1fr)}.cards,.eval{grid-template-columns:minmax(0,1fr)}.hero{background:linear-gradient(180deg,#7cc3ff 0%,#bfe3ff 40%,var(--sand) 40%)}}
+@media(max-width:600px){nav b{width:100%}.links{width:100%}.steps li{grid-template-columns:44px minmax(0,1fr);padding:14px}.steps .n{width:44px;height:44px;font-size:21px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.sun,.wv{animation:none!important}}
+.sun{animation:pulse 5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+.wv{animation:drift 7s ease-in-out infinite alternate}
+@keyframes pulse{50%{transform:scale(1.06)}}
+@keyframes drift{to{transform:translateX(-24px)}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><b>Limpando <span>a Praia</span></b>
+<div class="links"><a href="#projeto">Projeto</a><a href="#metodologia">Metodologia</a><a href="#residuos">Resíduos</a><a href="#acao">Ação na praia</a><a href="#jogo">O jogo</a><a href="#avaliacao">Avaliação</a><a href="#equipe">Equipe</a></div></div></nav>
+
+<header class="hero"><div class="wrap">
+<div class="copy">
+<span class="tag">Atividade Integradora V</span>
+<h1>Limpando a Praia</h1>
+<p style="margin-top:12px">Unimos uma ação real de limpeza na areia com um jogo de navegador que ensina a identificar e descartar corretamente garrafas PET, tampinhas e latinhas.</p>
+<p class="small" style="margin:0">Pedagogia Social e Projetos Solidários · Prof. Vinicius Armele dos Santos Leal</p>
+<div class="btns"><a class="btn" href="https://guilhermeprogram.github.io/Limpando-A-praia-/" target="_blank" rel="noopener">Jogar agora</a><a class="btn ghost" href="#acao">Ver a ação</a></div>
+</div>
+<svg class="scene" viewBox="0 0 600 420" role="img" aria-label="Ilustração de praia com sol, mar, lixeira e resíduos recicláveis na areia">
+<defs>
+<linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fb4ff"/><stop offset="1" stop-color="#cdeaff"/></linearGradient>
+<linearGradient id="sd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7e3b5"/><stop offset="1" stop-color="#e6c88c"/></linearGradient>
+<linearGradient id="sw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e6fe0"/><stop offset="1" stop-color="#0b3a8c"/></linearGradient>
+<linearGradient id="pet" x1="0" x2="1"><stop offset="0" stop-color="#9fe3ff" stop-opacity=".9"/><stop offset=".5" stop-color="#e9fbff" stop-opacity=".95"/><stop offset="1" stop-color="#7cc9ec" stop-opacity=".9"/></linearGradient>
+<linearGradient id="can" x1="0" x2="1"><stop offset="0" stop-color="#b8121b"/><stop offset=".45" stop-color="#ff5a4a"/><stop offset="1" stop-color="#9a0f17"/></linearGradient>
+<clipPath id="r"><rect width="600" height="420" rx="28"/></clipPath>
+</defs>
+<g clip-path="url(#r)">
+<rect width="600" height="420" fill="url(#sk)"/>
+<g class="sun"><circle cx="470" cy="80" r="44" fill="#ffd166"/><circle cx="470" cy="80" r="62" fill="#ffd166" opacity=".25"/></g>
+<path d="M0 150 C70 120 120 140 170 128 C230 112 260 150 330 138 L330 175 L0 175Z" fill="#2f8a5b"/>
+<path d="M0 158 C40 140 90 150 130 146 L130 175 L0 175Z" fill="#256f49"/>
+<rect y="168" width="600" height="90" fill="url(#sw)"/>
+<g class="wv" fill="#ffffff" opacity=".55"><path d="M-20 196 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 v4 h-680z"/><path d="M10 226 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 v4 h-640z"/></g>
+<path d="M0 252 C90 236 160 262 260 248 C360 234 450 262 600 244 L600 420 L0 420Z" fill="url(#sd)"/>
+<path d="M0 252 C90 236 160 262 260 248 C360 234 450 262 600 244" fill="none" stroke="#fff" stroke-width="5" opacity=".7"/>
+<g fill="#d9b874" opacity=".6"><circle cx="80" cy="330" r="3"/><circle cx="200" cy="380" r="2.5"/><circle cx="330" cy="300" r="3"/><circle cx="520" cy="360" r="2.5"/><circle cx="420" cy="400" r="3"/><circle cx="140" cy="290" r="2"/></g>
+<!-- lixeira -->
+<ellipse cx="480" cy="372" rx="62" ry="10" fill="#000" opacity=".15"/>
+<rect x="430" y="266" width="100" height="104" rx="8" fill="#1b8a4c"/>
+<rect x="430" y="266" width="12" height="104" rx="6" fill="#26a85f"/>
+<rect x="422" y="254" width="116" height="20" rx="8" fill="#136b3a"/>
+<path d="M466 300 l14 -18 l14 18 h-9 v22 h-10 v-22z" fill="#fff" opacity=".9"/>
+<text x="480" y="352" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="15" fill="#fff">RECICLE</text>
+<!-- garrafa PET -->
+<g transform="rotate(-62 150 340)">
+<ellipse cx="150" cy="372" rx="40" ry="8" fill="#000" opacity=".12" transform="rotate(62 150 372)"/>
+<rect x="132" y="300" width="36" height="78" rx="12" fill="url(#pet)" stroke="#5aa9cc" stroke-width="2"/>
+<path d="M136 302 q14 -26 14 -34 q0 8 14 34z" fill="url(#pet)" stroke="#5aa9cc" stroke-width="2"/>
+<rect x="132" y="322" width="36" height="22" fill="#2b9b5f" opacity=".85"/>
+<rect x="143" y="256" width="14" height="12" rx="3" fill="#1559c9"/>
+<rect x="137" y="304" width="5" height="64" rx="2.5" fill="#fff" opacity=".7"/>
+</g>
+<!-- latinha -->
+<ellipse cx="300" cy="384" rx="34" ry="7" fill="#000" opacity=".14"/>
+<g transform="rotate(12 300 345)">
+<rect x="278" y="306" width="44" height="76" rx="8" fill="url(#can)"/>
+<ellipse cx="300" cy="308" rx="22" ry="6" fill="#d9d9d9" stroke="#a9a9a9"/>
+<rect x="284" y="330" width="32" height="18" rx="4" fill="#fff" opacity=".9"/>
+<rect x="282" y="312" width="5" height="64" rx="2.5" fill="#fff" opacity=".45"/>
+</g>
+<!-- tampinhas -->
+<g><ellipse cx="226" cy="396" rx="14" ry="5" fill="#000" opacity=".12"/><circle cx="226" cy="388" r="12" fill="#ff6b4a"/><circle cx="226" cy="388" r="7" fill="#ff8f75"/></g>
+<g><ellipse cx="372" cy="356" rx="12" ry="4" fill="#000" opacity=".12"/><circle cx="372" cy="349" r="10" fill="#1559c9"/><circle cx="372" cy="349" r="6" fill="#4c86e6"/></g>
+<g><circle cx="96" cy="402" r="9" fill="#ffd166"/><circle cx="96" cy="402" r="5" fill="#ffe39a"/></g>
+<!-- seta -->
+<path d="M335 300 C370 260 400 255 420 268" fill="none" stroke="#0b3a8c" stroke-width="4" stroke-dasharray="2 9" stroke-linecap="round"/>
+<path d="M412 258 l12 10 l-15 4z" fill="#0b3a8c"/>
+</g>
+</svg>
+</div></header>
+
+<section id="projeto" class="band"><div class="wrap grid2">
+<div><h2>Por que a praia?</h2>
+<p class="lead">Garrafas, tampinhas e latas deixadas na areia vão parar no mar, machucam animais e levam décadas ou séculos para se decompor.</p></div>
+<div><p>Nesta atividade integradora, o grupo saiu da sala de aula e foi até a praia para observar e recolher resíduos de verdade. A experiência virou matéria-prima para um jogo de navegador, pensado para ensinar, de forma leve, o que é reciclável e para onde cada resíduo deve ir.</p>
+<p>O projeto combina pesquisa, ação presencial, desenvolvimento de software e divulgação, conectando a tecnologia ao cuidado com o meio ambiente.</p></div>
+</div></section>
+
+<svg class="wave" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true" style="background:var(--sand)"><path d="M0 46 V24 C150 0 300 46 450 24 C600 2 750 46 900 24 C1050 2 1125 20 1200 18 V46Z" fill="var(--sea)"/></svg>
+<section id="metodologia" class="band sea" style="padding-top:24px"><div class="wrap">
+<h2>Metodologia</h2>
+<p class="lead">A atividade foi organizada em cinco etapas, distribuídas entre tarefas presenciais e remotas.</p>
+<ol class="steps">
+<li><span class="n">1</span><div><h3>Planejamento</h3><p>Escolha da praia, definição dos materiais necessários e divisão das responsabilidades entre os integrantes.</p></div></li>
+<li><span class="n">2</span><div><h3>Pesquisa</h3><p>Estudo dos resíduos recicláveis mais comuns nas praias, especialmente garrafas PET, tampinhas e latinhas, e das formas adequadas de destinação.</p></div></li>
+<li><span class="n">3</span><div><h3>Ação de limpeza e observação</h3><p>Ida presencial à praia com registro em fotos e vídeos, identificação dos materiais recolhidos, atenção às condições de segurança e destinação correta.</p></div></li>
+<li><span class="n">4</span><div><h3>Criação e testes do jogo</h3><p>Desenvolvimento do jogo de navegador “Limpando a Praia”, com situações educativas de identificação e descarte de resíduos.</p></div></li>
+<li><span class="n">5</span><div><h3>Apresentação e divulgação</h3><p>Apresentação do jogo e dos resultados da atividade, com avaliação das ações realizadas.</p></div></li>
+</ol>
+</div></section>
+<svg class="wave" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true" style="background:var(--sand)"><path d="M0 0 V22 C150 46 300 0 450 22 C600 44 750 0 900 22 C1050 44 1125 26 1200 28 V0Z" fill="var(--sea)"/></svg>
+
+<section id="residuos" class="band"><div class="wrap">
+<h2>Os três resíduos do projeto</h2>
+<p class="lead">São itens leves, muito consumidos na praia e 100% recicláveis quando chegam ao lugar certo.</p>
+<div class="cards">
+<article class="card">
+<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="24" y="6" width="16" height="8" rx="2" fill="#1559c9"/><path d="M22 22 q10-10 10-8 q0-2 10 8 v34 a4 4 0 0 1-4 4 h-12 a4 4 0 0 1-4-4z" fill="#bfeaff" stroke="#5aa9cc" stroke-width="2"/><rect x="22" y="32" width="20" height="10" fill="#2b9b5f"/></svg>
+<h3>Garrafa PET</h3>
+<span class="fact">400+ anos</span><span class="small">estimativa de decomposição mais citada</span>
+<ul><li>Esvazie e, se possível, amasse para ocupar menos espaço.</li><li>Descarte no coletor vermelho (plástico) ou em um ponto de entrega voluntária.</li><li>Vira fibra para tecidos, cordas, vassouras e novas embalagens.</li></ul>
+</article>
+<article class="card">
+<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="22" cy="36" r="14" fill="#ff6b4a"/><circle cx="22" cy="36" r="8" fill="#ff9a82"/><circle cx="44" cy="28" r="12" fill="#1559c9"/><circle cx="44" cy="28" r="7" fill="#4c86e6"/></svg>
+<h3>Tampinhas</h3>
+<span class="fact">Pequenas e perigosas</span><span class="small">são confundidas com alimento por aves e tartarugas</span>
+<ul><li>São de plástico (geralmente PP ou PEAD) e também vão para o coletor vermelho.</li><li>Muitas campanhas solidárias juntam tampinhas para trocar por recursos.</li><li>Por serem miúdas, se perdem com facilidade na areia: atenção redobrada na coleta.</li></ul>
+</article>
+<article class="card">
+<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="18" y="10" width="28" height="46" rx="6" fill="#e33b2f"/><ellipse cx="32" cy="12" rx="14" ry="4" fill="#d9d9d9"/><rect x="22" y="24" width="20" height="12" rx="3" fill="#fff"/></svg>
+<h3>Latinhas</h3>
+<span class="fact">97,3%</span><span class="small">das latas vendidas no Brasil foram recicladas em 2024</span>
+<ul><li>Vão no coletor amarelo (metal) ou podem ser entregues a catadores e cooperativas.</li><li>Uma lata reciclada volta às prateleiras em cerca de 60 dias.</li><li>O alumínio pode ser reciclado indefinidamente sem perder qualidade.</li></ul>
+</article>
+</div>
+<p class="small" style="margin-top:16px">Dado de latinhas: Recicla Latas / Abal / Abralatas, divulgado em agosto de 2025. Tempos de decomposição são estimativas e variam conforme sol, umidade e salinidade.</p>
+</div></section>
+
+<section id="acao" class="band" style="background:var(--sand2)"><div class="wrap">
+<h2>A ação na praia</h2>
+<p class="lead">Registros feitos pelo grupo durante a limpeza e a observação do local.</p>
+<div class="grid2" style="margin-top:22px;align-items:center">
+<div>
+<div class="ba" id="ba" style="--x:50%">
+<img src="media/depois-c.jpg" alt="Depois da limpeza: pedras e areia sem lixo">
+<img class="top" src="media/antes-c.jpg" alt="Antes da limpeza: lixo acumulado entre as pedras">
+<span class="lbl" style="left:12px">Antes</span><span class="lbl" style="right:12px">Depois</span>
+<input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois" id="baIn">
+<span class="bar"></span>
+</div>
+<p class="small" style="margin-top:8px">Arraste para comparar o mesmo trecho entre as pedras, antes e depois da limpeza.</p>
+</div>
+<div>
+<h3>O que encontramos</h3>
+<p>Entre as pedras e na vegetação de restinga, o lixo se acumula longe da vista: garrafas plásticas, tampinhas, embalagens, copos descartáveis, papéis e restos de material trazidos pelo vento e pela maré.</p>
+<p>Também aparecem itens na faixa de areia aberta, próximos de onde as pessoas ficam, mesmo com lixeiras disponíveis na orla. Isso reforça que o problema não é só a falta de estrutura, mas também de hábito e informação, que é justamente o papel do jogo.</p>
+</div>
+</div>
+<div class="vids" id="vids"></div>
+</div></section>
+
+<section id="jogo" class="band sea"><div class="wrap game">
+<div>
+<h2>O jogo “Limpando a Praia”</h2>
+<p class="lead">Um jogo educativo em pixel art que roda direto no navegador, no computador ou no celular.</p>
+<p>O jogador controla a Marina, uma guerreira que percorre a praia recolhendo resíduos na mochila e levando os recicláveis até o descarte correto. A barra de vida, o contador de itens e as conquistas desbloqueadas acompanham o progresso, enquanto quadros de “Você sabia?” trazem curiosidades sobre o lixo nas praias.</p>
+<div class="chips"><span>Pixel art</span><span>História narrada</span><span>Tutorial</span><span>Conquistas</span><span>Música e efeitos</span><span>Funciona no celular</span></div>
+<div class="btns"><a class="btn" href="https://guilhermeprogram.github.io/Limpando-A-praia-/" target="_blank" rel="noopener">Abrir o jogo</a><a class="btn ghost" href="https://github.com/guilhermeprogram/Limpando-A-praia-" target="_blank" rel="noopener">Código no GitHub</a></div>
+</div>
+<div class="screen">
+<svg viewBox="0 0 160 100" shape-rendering="crispEdges" role="img" aria-label="Ilustração em pixel art inspirada no jogo">
+<rect width="160" height="100" fill="#6ec6ff"/><rect y="38" width="160" height="22" fill="#1e6fe0"/><rect y="38" width="160" height="2" fill="#bfe3ff"/><rect y="48" width="160" height="1" fill="#5fa0ff"/>
+<rect y="60" width="160" height="40" fill="#f3d99a"/><rect y="60" width="160" height="2" fill="#fff3d0"/>
+<rect x="128" y="8" width="14" height="14" fill="#ffd166"/>
+<rect x="4" y="4" width="44" height="6" fill="#0b2a66"/><rect x="5" y="5" width="34" height="4" fill="#ff4f5e"/>
+<rect x="122" y="88" width="34" height="8" fill="#0b2a66"/><rect x="123" y="89" width="16" height="6" fill="#ffd166"/>
+<g><rect x="40" y="66" width="8" height="8" fill="#ffcc9a"/><rect x="39" y="64" width="10" height="4" fill="#6b3b1f"/><rect x="39" y="74" width="10" height="9" fill="#ff6b4a"/><rect x="49" y="75" width="5" height="7" fill="#1b8a4c"/><rect x="40" y="83" width="3" height="6" fill="#0b2a66"/><rect x="45" y="83" width="3" height="6" fill="#0b2a66"/><rect x="42" y="69" width="1" height="1" fill="#000"/><rect x="45" y="69" width="1" height="1" fill="#000"/></g>
+<g><rect x="74" y="80" width="10" height="4" fill="#bfeaff"/><rect x="84" y="81" width="2" height="2" fill="#1559c9"/><rect x="76" y="80" width="4" height="4" fill="#2b9b5f"/></g>
+<g><rect x="96" y="74" width="5" height="8" fill="#e33b2f"/><rect x="96" y="74" width="5" height="1" fill="#ddd"/></g>
+<rect x="64" y="90" width="3" height="3" fill="#ff6b4a"/><rect x="108" y="86" width="3" height="3" fill="#1559c9"/>
+<g><rect x="132" y="64" width="16" height="18" fill="#1b8a4c"/><rect x="130" y="62" width="20" height="3" fill="#136b3a"/><rect x="138" y="68" width="4" height="8" fill="#fff"/></g>
+</svg>
+<p class="note" style="text-align:center;margin:10px 0 0">Ilustração inspirada no jogo, não é uma captura de tela.</p>
+</div>
+</div></section>
+
+<section id="avaliacao" class="band"><div class="wrap">
+<h2>Resultados e avaliação</h2>
+<p class="lead">O que a atividade entregou e o que aprendemos com cada frente.</p>
+<div class="eval">
+<div class="card"><h3>Na praia</h3><p>Trechos entre as pedras e na vegetação foram limpos e registrados em antes e depois. A observação mostrou onde o lixo se acumula e quais itens aparecem com mais frequência.</p></div>
+<div class="card"><h3>No jogo</h3><p>O jogo foi publicado no GitHub Pages e pode ser acessado por qualquer pessoa com o link. As situações de identificação e descarte transformam o que vimos na praia em desafios educativos.</p></div>
+<div class="card"><h3>No grupo</h3><p>A atividade integrou pesquisa, trabalho de campo, programação e comunicação, com tarefas divididas entre encontros presenciais e trabalho remoto.</p></div>
+</div>
+<div class="card" style="margin-top:18px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+<div><h3>Faça a sua parte</h3><p style="margin:6px 0 0">Leve uma sacola para a praia, recolha o que for seu e o que encontrar pelo caminho, e separe os recicláveis.</p></div>
+<a class="btn" href="https://guilhermeprogram.github.io/Limpando-A-praia-/" target="_blank" rel="noopener">Jogar “Limpando a Praia”</a>
+</div>
+</div></section>
+
+<section id="equipe" class="band sea"><div class="wrap">
+<h2>Equipe</h2>
+<p class="lead">Atividade Integradora V · Pedagogia Social e Projetos Solidários<br>Professor: Vinicius Armele dos Santos Leal</p>
+<ul class="team"><li>Jennifer Bastos Alves Soares</li><li>Pedro Henrique Alves de Souza Loureiro</li><li>Guilherme Caitano Gomes da Silva</li><li>Julia Bittencourt Borges</li><li>Matheus Lopes Morgade Salgueiro</li><li>Pedro Ferreira Hotz</li><li>Guilherme Rodrigues Leite</li><li>Thomas Andrew de Souza Batista</li><li>Juliana da Cunha dos Santos</li><li>Matheus da Silva Braga</li></ul>
+</div></section>
+
+<footer><div class="wrap"><span>Limpando a Praia · Atividade Integradora V – Pedagogia Social e Projetos Solidários</span><span>Fotos e vídeos: registros do grupo</span></div></footer>
+
+<dialog id="dlg" aria-label="Vídeo da ação"><button class="btn close" id="cls">Fechar</button><video id="vid" controls playsinline></video></dialog>
+
+<script>
+{
+const V=[
+["v1","p1","Resíduo na areia"],["v2","p2","Garrafa PET e tampinha"],["v3","p3","Varredura na faixa de areia"],
+["v4","p4","Lixo na vegetação"],["v5","p5","Restinga e lixeira da orla"],["v6","p6","Entre galhos e folhas"],["v7","p7","Papel na areia"]];
+const g=document.getElementById('vids');
+g.innerHTML=V.map((v,i)=>`<button data-i="${i}" aria-label="Assistir: ${v[2]}"><img src="media/${v[1]}.jpg" alt=""><i></i><span>${v[2]}</span></button>`).join('');
+const d=document.getElementById('dlg'),vid=document.getElementById('vid');
+g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const v=V[+b.dataset.i];vid.src='media/'+v[0]+'.mp4';vid.poster='media/'+v[1]+'.jpg';try{d.showModal()}catch(_){d.setAttribute('open','')}vid.play().catch(()=>{})});
+const close=()=>{vid.pause();d.close?d.close():d.removeAttribute('open')};
+document.getElementById('cls').addEventListener('click',close);
+d.addEventListener('click',e=>{if(e.target===d)close()});
+d.addEventListener('close',()=>vid.pause());
+const ba=document.getElementById('ba'),bi=document.getElementById('baIn');
+bi.addEventListener('input',()=>ba.style.setProperty('--x',bi.value+'%'));
+}
+</script>
+</body>
+</html>
